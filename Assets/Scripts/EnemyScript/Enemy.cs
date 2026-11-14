@@ -6,8 +6,8 @@ public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] protected SpriteRenderer enemyRenderer;
     [SerializeField] protected Bullet bulletPrefab;
-    [SerializeField] protected float timeBetweenShoot;
-    [SerializeField] protected int numBullets;
+    [SerializeField] protected float timeBetweenShoot = 3f;
+    //[SerializeField] protected int numBullets = 1;
 
     List<Bullet> currentBullets;   // All bullets from this enemy that are currently in the scene
    
@@ -66,7 +66,7 @@ public abstract class Enemy : MonoBehaviour
         Shoot(point - enemyPosition, bulletPrefab);
     }
 
-    protected void ShootOneAtPlayer(GameObject player, Bullet bulletPrefab)
+    protected void ShootOneAtPlayer(PlayerController player, Bullet bulletPrefab)
     {
         ShootOneAtPoint(player.transform.position, bulletPrefab);
     }
@@ -93,6 +93,11 @@ public abstract class Enemy : MonoBehaviour
                 Shoot(Quaternion.Euler(0f, 0f, -angleBetweenShots * (int)(i / 2.0)) * firstVelo, bulletPrefab);
             }
         }
+    }
+
+    protected void ShootMultipleAtPlayer(PlayerController player, Bullet bulletPrefab, int numBullets, float angleBetweenShots)
+    {
+        ShootMultipleAtPoint(player.transform.position, bulletPrefab, numBullets, angleBetweenShots);
     }
 
 }

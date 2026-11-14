@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
   rBody: {fileID: 5496926088007001699}
-  speed: 3
+  speed: 4
   damagePerHit: 1
 --- !u!50 &5496926088007001699
 Rigidbody2D:
