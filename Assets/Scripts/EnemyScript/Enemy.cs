@@ -64,7 +64,7 @@ public abstract class Enemy : MonoBehaviour
         Shoot(point - enemyPosition, bulletPrefab);
     }
 
-    protected void ShootOneAtPlayer(EnemyTestPlayer player, Bullet bulletPrefab)
+    protected void ShootOneAtPlayer(GameObject player, Bullet bulletPrefab)
     {
         ShootOneAtPoint(player.transform.position, bulletPrefab);
     }

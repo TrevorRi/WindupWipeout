@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class OneAtPlayerEnemy : Enemy
 {
-    [SerializeField] private EnemyTestPlayer player;
+    [SerializeField] private GameObject player;
 
 
     public override void ShootBullets()
