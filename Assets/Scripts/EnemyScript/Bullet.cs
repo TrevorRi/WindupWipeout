@@ -16,9 +16,11 @@ public class Bullet : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        Vector2 pos = transform.position;
+        pos += velocity.normalized * speed * Time.fixedDeltaTime;
+        rBody.MovePosition(pos);
     }
 
     /// <summary>
@@ -31,5 +33,6 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.tag == "Player") collision.gameObject.GetComponent<EnemyTestPlayer>().TakeDamage(damagePerHit);
 
         Destroy(this.gameObject);
+        Debug.Log(collision);
     }
 }
