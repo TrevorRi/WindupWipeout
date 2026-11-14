@@ -53,16 +53,6 @@ public class GameManager : MonoBehaviour
         timeMovementTestScript = timeMovementTest.GetComponent<TestPlayerBlockMovement>();
     }
 
-    //Subscribe/ unsubscribe from event
-    private void OnEnable()
-    {
-        timeMovementTestScript.OnPlayerChangeSpeed += ShiftTime;
-    }
-
-    private void OnDisable()
-    {
-        timeMovementTestScript.OnPlayerChangeSpeed -= ShiftTime;
-    }
 
     private void Start()
     {
