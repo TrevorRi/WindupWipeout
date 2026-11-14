@@ -28,10 +28,22 @@ public class Bullet : MonoBehaviour
     /// harm the player before despawning the bullet
     /// </summary>
     /// <param name="collision">Object that was collided with</param>
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Player") collision.gameObject.GetComponent<EnemyTestPlayer>().TakeDamage(damagePerHit);
+    //public void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Player") collision.gameObject.GetComponent<EnemyTestPlayer>().TakeDamage(damagePerHit);
 
-        Destroy(this.gameObject);
+    //    if (collision.gameObject.tag != "Bullet") Destroy(this.gameObject);
+    //    Debug.Log("bullet destroyed");
+    //}
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        //if (collision.gameObject.tag == "Player") collision.gameObject.GetComponent<EnemyTestPlayer>().TakeDamage(damagePerHit);
+
+        if (collision.gameObject.tag != "Bullet")
+        {
+            Destroy(this.gameObject);
+            Debug.Log("bullet destroyed");
+        }
     }
 }

@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] protected SpriteRenderer enemyRenderer;
     [SerializeField] protected Bullet bulletPrefab;
     [SerializeField] protected float timeBetweenShoot;
-    [SerializeField] protected float numBullets;
+    [SerializeField] protected int numBullets;
 
     List<Bullet> currentBullets;   // All bullets from this enemy that are currently in the scene
    
@@ -56,6 +57,7 @@ public abstract class Enemy : MonoBehaviour
         Bullet newBullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.identity, transform);
         currentBullets.Add(newBullet);
         newBullet.StartVelocity = velocity;
+        Debug.Log("created bullet");
     }
 
     protected void ShootOneAtPoint(Vector2 point, Bullet bulletPrefab)
@@ -67,6 +69,30 @@ public abstract class Enemy : MonoBehaviour
     protected void ShootOneAtPlayer(GameObject player, Bullet bulletPrefab)
     {
         ShootOneAtPoint(player.transform.position, bulletPrefab);
+    }
+
+    protected void ShootMultipleAtPoint(Vector2 point, Bullet bulletPrefab, int numBullets, float angleBetweenShots)
+    {
+        Vector2 enemyPoistion = transform.position;
+        Vector2 firstVelo = point - enemyPoistion;
+        for (int i = 1; i <= numBullets; i++)
+        {
+            // 1
+            if (i == 1)
+            {
+                Shoot(firstVelo, bulletPrefab);
+            }
+            // 2, 4, 6, 8, etc.
+            else if (i > 1 && i % 2 == 0)
+            {
+                Shoot(Quaternion.Euler(0f, 0f, angleBetweenShots * (i / 2)) * firstVelo, bulletPrefab);
+            }
+            // 3, 5, 7, 9, etc.
+            else if (i > 1 && i % 2 == 1)
+            {
+                Shoot(Quaternion.Euler(0f, 0f, -angleBetweenShots * (int)(i / 2.0)) * firstVelo, bulletPrefab);
+            }
+        }
     }
 
 }

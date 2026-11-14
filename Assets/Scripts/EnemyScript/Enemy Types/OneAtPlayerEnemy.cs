@@ -7,6 +7,8 @@ public class OneAtPlayerEnemy : Enemy
 
     public override void ShootBullets()
     {
-        ShootOneAtPlayer(player, bulletPrefab);
+        //ShootOneAtPlayer(player, bulletPrefab);
+        ShootMultipleAtPoint(player.transform.position, bulletPrefab, numBullets, 12.25f);
+        Debug.Log("shot");
     }
 }

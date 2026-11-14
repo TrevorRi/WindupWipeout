@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 264752080}
   - component: {fileID: 264752081}
   m_Layer: 0
-  m_Name: Playe
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -588,6 +588,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 264752076}
+    - target: {fileID: 240142898427410448, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
+      propertyPath: numBullets
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 909673917663904520, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
