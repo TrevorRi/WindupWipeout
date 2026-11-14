@@ -17,8 +17,6 @@ public class TestPlayerBlockMovement : MonoBehaviour
     private void FixedUpdate()
     {
         transform.Translate(Vector3.left * maxSpeed * Time.deltaTime);
-
-        
     }
 
 
