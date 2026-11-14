@@ -66,8 +66,8 @@ public class GameManager : MonoBehaviour
         // Add listener for reset button being pressed
         resetButtonReference.onClick.AddListener(OnResetPressed);
 
-
-        //CTD- Add listener for quit method, once we have the main menu created
+        //Add listener for quit button being pressed
+        quitButtonReferene.onClick.AddListener(OnQuitPressed);
     }
 
 
@@ -79,10 +79,6 @@ public class GameManager : MonoBehaviour
             totalElapsedTime += defaultDeltaTime;
             elapsedTime += Time.deltaTime;
         }
-
-        //Debug to log value of time for testing pause
-        Debug.Log(totalElapsedTime);
-
     }
 
     //Method to speed up or slow down game based on Unity events **Test Method**
@@ -145,6 +141,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Button resetButtonReference;
 
+    [SerializeField] private Button quitButtonReferene;
+
     //Bool for if menu is currently up
     private bool menuIsActive = true;
 
@@ -191,7 +189,6 @@ public class GameManager : MonoBehaviour
 
         //Unpause timer
         timerIsRunning = true;
-        
     }
 
     private void OnResetPressed()
@@ -201,12 +198,20 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(currentSceneName);
     }
 
+    private void OnQuitPressed()
+    {
+        //Load scene of main menu (this will be changed before ending, since name will be outdated)
+        SceneManager.LoadScene("MainMenuUITesting");
+    }
+
     private void OnDestroy()
     {
         //Remove listeners from object upon being destroyed to prevent memory leak
         resumeButtonReference.onClick.RemoveListener(OnResumePressed);
 
         resetButtonReference.onClick.RemoveListener(OnResetPressed);
+
+        quitButtonReferene.onClick.RemoveListener(OnQuitPressed);
     }
 
     //End of Code for Menu UI
