@@ -317,7 +317,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db01cae67012fb848a59049383caa3d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  maxWind: 20
+  maxWind: 15
+  diveTime: 0.25
+  windTime: 0.1
 --- !u!212 &1351556874
 SpriteRenderer:
   serializedVersion: 2
@@ -367,8 +369,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.8490566, g: 0.75487506, b: 0.17221431, a: 1}
+  m_Sprite: {fileID: -2108474139079036682, guid: 33387a125989184489dffc7b3a7e7993, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -386,8 +388,8 @@ Transform:
   m_GameObject: {fileID: 1351556872}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.01, y: -0.04, z: 0}
+  m_LocalScale: {x: 0.29332194, y: 0.29332194, z: 0.29332194}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -457,13 +459,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 3.91, y: 5}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.5, y: 3}
   m_EdgeRadius: 0
 --- !u!1 &1901429034
 GameObject:

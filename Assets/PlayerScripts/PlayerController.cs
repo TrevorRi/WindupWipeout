@@ -3,39 +3,95 @@ using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+enum playerStates
+{
+    alive,
+    dive,
+    Wind
+}
+
 public class PlayerController : MonoBehaviour
 {
     private Vector2 movement;
     public float maxWind;
+    public float diveTime;
+    public float windTime;
+    private float dynamicDiveTime;
     private float dynamicWind;
+    private float dynamicWindTime;
     private bool windBool;
     private Rigidbody2D rb;
+
+    private playerStates playerState;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         dynamicWind = maxWind / 2; 
+        dynamicDiveTime = diveTime;
+        dynamicWindTime = windTime;
         windBool = true;
         rb = GetComponent<Rigidbody2D>();
+        playerState = playerStates.alive;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        //handle wind down time
-        if(dynamicWind > 0)
+        if(playerState == playerStates.alive)
         {
-            dynamicWind -= Time.deltaTime * 2;
-        }
+            //handle wind down time
+            if(dynamicWind > 0)
+            {
+                dynamicWind -= Time.deltaTime;
+            }
 
-        if(dynamicWind < 0)
-        {
-            //stop at zero so movement speed does not turn negative
-            dynamicWind = 0;
+            if(dynamicWind < 0)
+            {
+                //stop at zero so movement speed does not turn negative
+                dynamicWind = 0;
+            }
+            
+            //move player rigid body using the wind amount as movement speed
+            rb.linearVelocity = movement * dynamicWind;   
         }
-        
-        //move player rigid body using the wind amount as movement speed
-        rb.linearVelocity = movement * dynamicWind;
+        if(playerState == playerStates.dive)
+        {
+            if(dynamicDiveTime > 0)
+            {
+                dynamicDiveTime -= Time.deltaTime;
+            }
+            if(dynamicDiveTime <= .05)
+            {
+                rb.linearVelocity = movement * dynamicWind / 3;
+            }
+            if(dynamicDiveTime <= 0)
+            {
+                playerState = playerStates.alive;
+                dynamicDiveTime = diveTime;
+            }
+
+            dynamicWind -= Time.deltaTime * 15;
+            if(dynamicWind < 0)
+            {
+                //stop at zero so movement speed does not turn negative
+                dynamicWind = 0;
+            } 
+        }
+        if(playerState == playerStates.Wind)
+        {
+            if(dynamicWindTime > 0)
+            {
+                dynamicWindTime -= Time.deltaTime;
+            }
+            if(dynamicWindTime <= 0)
+            {
+                playerState = playerStates.alive;
+            }
+            
+            //move player rigid body using the wind amount as movement speed
+            rb.linearVelocity = movement * dynamicWind / 5; 
+        }
     }
 
     public void OnPlayerMove(InputAction.CallbackContext context)
@@ -65,15 +121,20 @@ public class PlayerController : MonoBehaviour
             {
                 dynamicWind = maxWind;
             }
+
+            playerState = playerStates.Wind;
+            dynamicWindTime = windTime;
         }
     }
 
     //press O and P at the same time to dive
     public void OnPlayerDive(InputAction.CallbackContext context)
     {
-        // if(context.performed)
-        // {
-        //     Debug.Log("Dive");
-        // }
+        if(context.performed && dynamicWind >= 1.5 )
+        {
+            playerState = playerStates.dive;
+            rb.linearVelocity = movement * dynamicWind * 2;
+            Debug.Log("Dive");
+        }
     }
 }
