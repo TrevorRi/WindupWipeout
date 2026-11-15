@@ -1,4 +1,4 @@
-using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -9,18 +9,19 @@ public class GameManager : MonoBehaviour
 
     //Start of Reference test variables
 
-    [SerializeField] private GameObject timeMovementTest;
+    [SerializeField] private GameObject playerObject;
 
-    private TestPlayerBlockMovement timeMovementTestScript;
+    [SerializeField] private PlayerInput playerInput;
 
     //End of Reference test varaibles
-
 
 
     //Start of Timer Variables
 
     //Variable to store current time in seconds
     private float elapsedTime = 0.0f;
+
+    private float elapsedTimeReference;
 
     //Variable to store default value of delta time
     //(to scale when changing value of Time.timeScale, so objects actually slow down/ speed up)
@@ -29,9 +30,20 @@ public class GameManager : MonoBehaviour
     //Variable to store total elapsed time, regardless of time scaling
     private float totalElapsedTime = 0.0f;
 
+    //Variable for how long level should be (set in start for debugging)
+    private float levelTime;
 
     //Variable to store if timer is currently running
     private bool timerIsRunning;
+
+    //End of Timer Variables
+
+    //Int for number of level currently in manager (temp fix)
+    int levelNumber;
+
+    //Text for final gameover screen
+    [SerializeField] TextMeshProUGUI topText;
+
 
     public static GameManager Manager { get; private set; }
 
@@ -49,25 +61,29 @@ public class GameManager : MonoBehaviour
         //Setting only manager as this object
         Manager = this;
 
-        defaultDeltaTime = Time.fixedDeltaTime;
-        timeMovementTestScript = timeMovementTest.GetComponent<TestPlayerBlockMovement>();
+        //Get number of current active scene for level logic
+        levelNumber = SceneManager.GetActiveScene().buildIndex;
     }
 
-    //Subscribe/ unsubscribe from event
-    private void OnEnable()
-    {
-        timeMovementTestScript.OnPlayerChangeSpeed += ShiftTime;
-    }
-
-    private void OnDisable()
-    {
-        timeMovementTestScript.OnPlayerChangeSpeed -= ShiftTime;
-    }
 
     private void Start()
     {
+        //Setting up default delta time value
+        defaultDeltaTime = Time.fixedDeltaTime;
+
         //Start timer
         timerIsRunning = true;
+
+        //Setting time for first level
+        if (levelNumber == 1)
+        {
+            levelTime = 10.0f;
+        }
+        //Setting time for second level
+        else
+        {
+            levelTime = 20.0f;
+        }
 
         //Add listener for resume button being pressed
         //(done in start to allow for button to exist for a frame before being set as inactive)
@@ -76,8 +92,11 @@ public class GameManager : MonoBehaviour
         // Add listener for reset button being pressed
         resetButtonReference.onClick.AddListener(OnResetPressed);
 
+        //Add listener for quit button being pressed
+        quitButtonReference.onClick.AddListener(OnQuitPressed);
 
-        //CTD- Add listener for quit method, once we have the main menu created
+        //Call method to start game (in case of restarting scene)
+        StartTime();
     }
 
 
@@ -87,27 +106,38 @@ public class GameManager : MonoBehaviour
         if (timerIsRunning)
         {
             totalElapsedTime += defaultDeltaTime;
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.fixedDeltaTime;
         }
 
-        //Debug to log value of time for testing pause
-        Debug.Log(totalElapsedTime);
+        //If total elapsed time without scaling has reached value of 
+        //how long level should be or exceeded it, call method to end game
+        if (elapsedTime >= levelTime)
+        {
+            //Stop timer
+            timerIsRunning = false;
 
+            //Save reference to elapsed time for calculating score
+            elapsedTimeReference = elapsedTime;
+
+            //Set elapsedTime to be zero (to prevent constant calls)
+            elapsedTime = 0;
+
+            //Pause time completely
+            StopTime();
+
+            //Call method to calculate score
+            CalculateScore(levelNumber);
+        }
     }
 
-    //Method to speed up or slow down game based on Unity events **Test Method**
-    private void ShiftTime(bool isSlowdownOn)
+    //Method to speed up or slow down game based on Unity events 
+    private void ShiftTime(float decreaseAmount)
     {
+        //Set timescale to be new value
+        Time.timeScale -= decreaseAmount;
 
-        if (isSlowdownOn)
-        {
-            //Set timescale to be new value
-            Time.timeScale = 0.5f;
-
-            //Set new deltatime to reflect new speed value
-            Time.fixedDeltaTime = defaultDeltaTime * Time.timeScale;
-        }
-
+        //Set new deltatime to reflect new speed value
+        Time.fixedDeltaTime = defaultDeltaTime * Time.timeScale;
     }
 
     private void StartTime()
@@ -132,17 +162,90 @@ public class GameManager : MonoBehaviour
 
     //Start of code for Scoring
 
-    private int CalculateScore()
+    private void CalculateScore(int levelNumber)
     {
         //Subtract values for total time and elapsed time, getting different in time it took for player to reach end
         //and expected value (varies by level)
-        float totalTimeDifference = totalElapsedTime - elapsedTime;
+        int totalTimeDifference = (int)(100 % elapsedTimeReference);
 
-        float finalScore = 100 - totalTimeDifference;
-
-        return (int)finalScore;
+        //If time difference between player time and total time is more than ten
+        //(player took more than 10 seconds extra to reach 60s mark)
+        if (totalTimeDifference >= 10)
+        {
+            //Call method to end level with player loss
+            EndLevel(false, totalTimeDifference);
+        }
+        else
+        {
+            //Otherwise, call method to end level with player win
+            EndLevel(true, totalTimeDifference);
+        }
     }
 
+    /// <summary>
+    /// Method for calculating final score and altering text to reflect value
+    /// </summary>
+    /// <param name="winOrLoss"></param>
+    /// <param name="finalScore"></param>
+    private void EndLevel(bool winOrLoss, int finalScore)
+    {
+        //Deactivate player input (to prevent movement/ opening/ closing menu with esc
+        playerInput.DeactivateInput();
+
+        //Set pause menu to be active 
+        canvasReference.SetActive(true);
+
+        //Disable resume button 
+        resumeButtonReference.gameObject.SetActive(false);
+
+        //Move Reset and Quit Button to Center of Screen
+        Vector2 resetButtonPosition = resetButtonReference.gameObject.transform.position;
+        resetButtonPosition.x = 840;
+        resetButtonReference.gameObject.transform.position = resetButtonPosition;
+
+        Vector2 quitButtonPosition = quitButtonReference.gameObject.transform.position;
+        quitButtonPosition.x = 1430;
+        quitButtonReference.gameObject.transform.position = quitButtonPosition;
+
+
+        //Switch statement for final score
+        string finalScoreLetter = "";
+        switch (finalScore)
+        {
+            case 9:
+                finalScoreLetter = "S";
+                break;
+            case 8:
+                finalScoreLetter = "A";
+                break;
+            case 7:
+                finalScoreLetter = "B";
+                break;
+            case 6:
+                finalScoreLetter = "C";
+                break;
+            case 5:
+                finalScoreLetter = "D";
+                break;
+            default:
+                finalScoreLetter = "F";
+                break;
+        }
+
+        //If player has won, change text to appropriate value
+        if (winOrLoss)
+        {
+            //Change text to winning text and print final score
+            topText.text = "You Win! \n\n Final Score: " + finalScoreLetter;
+
+        }
+        //Otherwise, player has lost, change text and print final score
+        else
+        {
+            topText.text = "You ran out of time! GAME OVER \n\n Final Score: " + finalScoreLetter;
+        }
+
+    }
 
     //End of code for Scoring
 
@@ -154,6 +257,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Button resumeButtonReference;
 
     [SerializeField] private Button resetButtonReference;
+
+    [SerializeField] private Button quitButtonReference;
 
     //Bool for if menu is currently up
     private bool menuIsActive = true;
@@ -201,7 +306,6 @@ public class GameManager : MonoBehaviour
 
         //Unpause timer
         timerIsRunning = true;
-        
     }
 
     private void OnResetPressed()
@@ -211,12 +315,20 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(currentSceneName);
     }
 
+    private void OnQuitPressed()
+    {
+        //Load scene of main menu (this will be changed before ending, since name will be outdated)
+        SceneManager.LoadScene("MainMenuUITesting");
+    }
+
     private void OnDestroy()
     {
         //Remove listeners from object upon being destroyed to prevent memory leak
         resumeButtonReference.onClick.RemoveListener(OnResumePressed);
 
         resetButtonReference.onClick.RemoveListener(OnResetPressed);
+
+        quitButtonReference.onClick.RemoveListener(OnQuitPressed);
     }
 
     //End of Code for Menu UI
