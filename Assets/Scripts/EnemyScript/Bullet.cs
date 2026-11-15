@@ -46,4 +46,41 @@ public class Bullet : MonoBehaviour
             Debug.Log("bullet destroyed");
         }
     }
+
+
+
+
+    // Skipping methods
+
+    public void SkipForward()
+    {
+        //transform.position += transform.position / 2;
+        Vector2 pos = transform.position;
+        pos += velocity.normalized * speed / 2.0f;
+        rBody.MovePosition(pos);
+    }
+
+    public void Rewind()
+    {
+        //transform.position -= transform.position / 2;
+        Vector2 pos = transform.position;
+        pos -= velocity.normalized * speed / 2.0f;
+        rBody.MovePosition(pos);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="yOffset">The amout to make y drop down by (a positive value)</param>
+    public void NeedleDrop(float yOffset)
+    {
+        //Vector3 newPos = b.transform.position;
+        //newPos.y -= yOffset;
+        //b.transform.position = newPos;
+        rBody.MovePosition(
+                            new Vector3(0,
+                                        -(yOffset),
+                                        0)
+                           );
+    }
 }
