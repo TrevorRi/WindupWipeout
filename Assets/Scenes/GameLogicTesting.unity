@@ -1309,7 +1309,7 @@ MonoBehaviour:
   canvasReference: {fileID: 2022408551}
   resumeButtonReference: {fileID: 1522178473}
   resetButtonReference: {fileID: 14705934}
-  quitButtonReference: {fileID: 0}
+  quitButtonReference: {fileID: 629810680}
 --- !u!1 &1508984731
 GameObject:
   m_ObjectHideFlags: 0
