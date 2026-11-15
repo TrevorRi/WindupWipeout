@@ -8,7 +8,8 @@ enum playerStates
 {
     alive,
     dive,
-    Wind
+    wind,
+    dead
 }
 
 public class PlayerController : MonoBehaviour
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public float diveTime;
     public float windTime;
     public List<Sprite> spriteList = new List<Sprite>();
+    public List<RuntimeAnimatorController> animList = new List<RuntimeAnimatorController>();
     private float dynamicDiveTime;
     private float dynamicWind;
     private float dynamicWindTime;
@@ -83,7 +85,7 @@ public class PlayerController : MonoBehaviour
                 dynamicWind = 0;
             } 
         }
-        if(playerState == playerStates.Wind)
+        if(playerState == playerStates.wind)
         {
             if(dynamicWindTime > 0)
             {
@@ -112,15 +114,18 @@ public class PlayerController : MonoBehaviour
 
         if(movement*dynamicWind == Vector2.zero)
         {
-            anim.enabled = false;
-            sprite.sprite = spriteList[0];
+            if(sprite.sprite != spriteList[0])
+            {
+                sprite.sprite = spriteList[0];
+                anim.runtimeAnimatorController = animList[0];             
+            }
         }
         else
         {
-            anim.enabled = true;
             if(sprite.sprite != spriteList[1])
             {
                 sprite.sprite = spriteList[1];
+                anim.runtimeAnimatorController = animList[1];
             }
         }
     }
@@ -153,7 +158,7 @@ public class PlayerController : MonoBehaviour
                 dynamicWind = maxWind;
             }
 
-            playerState = playerStates.Wind;
+            playerState = playerStates.wind;
             dynamicWindTime = windTime;
         }
     }
@@ -166,5 +171,11 @@ public class PlayerController : MonoBehaviour
             playerState = playerStates.dive;
             rb.linearVelocity = movement * dynamicWind * 2;
         }
+    }
+
+    public void TakeDamage(Vector2 damageVector)
+    {
+        sprite.color = Color.red;
+        sprite.color = Color.white;
     }
 }
