@@ -1,4 +1,4 @@
-using UnityEditor.AdaptivePerformance.Editor;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -9,9 +9,9 @@ public class GameManager : MonoBehaviour
 
     //Start of Reference test variables
 
-    [SerializeField] private GameObject timeMovementTest;
+    [SerializeField] private GameObject playerObject;
 
-    private TestPlayerBlockMovement timeMovementTestScript;
+    [SerializeField] private PlayerInput playerInput;
 
     //End of Reference test varaibles
 
@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     //Variable to store current time in seconds
     private float elapsedTime = 0.0f;
+
+    private float elapsedTimeReference;
 
     //Variable to store default value of delta time
     //(to scale when changing value of Time.timeScale, so objects actually slow down/ speed up)
@@ -39,6 +41,9 @@ public class GameManager : MonoBehaviour
     //Int for number of level currently in manager (temp fix)
     int levelNumber;
 
+    //Text for final gameover screen
+    [SerializeField] TextMeshProUGUI topText;
+
 
     public static GameManager Manager { get; private set; }
 
@@ -56,27 +61,28 @@ public class GameManager : MonoBehaviour
         //Setting only manager as this object
         Manager = this;
 
+        //Get number of current active scene for level logic
         levelNumber = SceneManager.GetActiveScene().buildIndex;
-
-        //Setting up default delta time value
-        defaultDeltaTime = Time.fixedDeltaTime;
     }
 
 
     private void Start()
     {
+        //Setting up default delta time value
+        defaultDeltaTime = Time.fixedDeltaTime;
+
         //Start timer
         timerIsRunning = true;
 
         //Setting time for first level
         if (levelNumber == 1)
         {
-            levelTime = 60.0f;
+            levelTime = 10.0f;
         }
         //Setting time for second level
         else
         {
-            levelTime = 90.0f;
+            levelTime = 20.0f;
         }
 
         //Add listener for resume button being pressed
@@ -87,7 +93,7 @@ public class GameManager : MonoBehaviour
         resetButtonReference.onClick.AddListener(OnResetPressed);
 
         //Add listener for quit button being pressed
-        quitButtonReferene.onClick.AddListener(OnQuitPressed);
+        quitButtonReference.onClick.AddListener(OnQuitPressed);
 
         //Call method to start game (in case of restarting scene)
         StartTime();
@@ -100,18 +106,26 @@ public class GameManager : MonoBehaviour
         if (timerIsRunning)
         {
             totalElapsedTime += defaultDeltaTime;
-            elapsedTime += Time.deltaTime;
-            Debug.Log(totalElapsedTime);
+            elapsedTime += Time.fixedDeltaTime;
         }
-
 
         //If total elapsed time without scaling has reached value of 
         //how long level should be or exceeded it, call method to end game
-        if (elapsedTime >= levelTime + 20)
+        if (elapsedTime >= levelTime)
         {
+            //Stop timer
+            timerIsRunning = false;
+
+            //Save reference to elapsed time for calculating score
+            elapsedTimeReference = elapsedTime;
+
             //Set elapsedTime to be zero (to prevent constant calls)
             elapsedTime = 0;
+
+            //Pause time completely
             StopTime();
+
+            //Call method to calculate score
             CalculateScore(levelNumber);
         }
     }
@@ -148,28 +162,88 @@ public class GameManager : MonoBehaviour
 
     //Start of code for Scoring
 
-    private int CalculateScore(int levelNumber)
+    private void CalculateScore(int levelNumber)
     {
         //Subtract values for total time and elapsed time, getting different in time it took for player to reach end
         //and expected value (varies by level)
-        float totalTimeDifference = totalElapsedTime - elapsedTime;
+        int totalTimeDifference = (int)(100 % elapsedTimeReference);
 
-        if (totalTimeDifference >= 20)
+        //If time difference between player time and total time is more than ten
+        //(player took more than 10 seconds extra to reach 60s mark)
+        if (totalTimeDifference >= 10)
         {
-            EndLevel();
+            //Call method to end level with player loss
+            EndLevel(false, totalTimeDifference);
         }
-
-
-        float finalScore = 100 - totalTimeDifference;
-
-        return (int)finalScore;
+        else
+        {
+            //Otherwise, call method to end level with player win
+            EndLevel(true, totalTimeDifference);
+        }
     }
 
-    private void EndLevel()
+    /// <summary>
+    /// Method for calculating final score and altering text to reflect value
+    /// </summary>
+    /// <param name="winOrLoss"></param>
+    /// <param name="finalScore"></param>
+    private void EndLevel(bool winOrLoss, int finalScore)
     {
-        //Calculate final score and store value in variable
-        int finalScore = CalculateScore(levelNumber);
+        //Deactivate player input (to prevent movement/ opening/ closing menu with esc
+        playerInput.DeactivateInput();
 
+        //Set pause menu to be active 
+        canvasReference.SetActive(true);
+
+        //Disable resume button 
+        resumeButtonReference.gameObject.SetActive(false);
+
+        //Move Reset and Quit Button to Center of Screen
+        Vector2 resetButtonPosition = resetButtonReference.gameObject.transform.position;
+        resetButtonPosition.x = 840;
+        resetButtonReference.gameObject.transform.position = resetButtonPosition;
+
+        Vector2 quitButtonPosition = quitButtonReference.gameObject.transform.position;
+        quitButtonPosition.x = 1430;
+        quitButtonReference.gameObject.transform.position = quitButtonPosition;
+
+
+        //Switch statement for final score
+        string finalScoreLetter = "";
+        switch (finalScore)
+        {
+            case 9:
+                finalScoreLetter = "S";
+                break;
+            case 8:
+                finalScoreLetter = "A";
+                break;
+            case 7:
+                finalScoreLetter = "B";
+                break;
+            case 6:
+                finalScoreLetter = "C";
+                break;
+            case 5:
+                finalScoreLetter = "D";
+                break;
+            default:
+                finalScoreLetter = "F";
+                break;
+        }
+
+        //If player has won, change text to appropriate value
+        if (winOrLoss)
+        {
+            //Change text to winning text and print final score
+            topText.text = "You Win! \n\n Final Score: " + finalScoreLetter;
+
+        }
+        //Otherwise, player has lost, change text and print final score
+        else
+        {
+            topText.text = "You ran out of time! GAME OVER \n\n Final Score: " + finalScoreLetter;
+        }
 
     }
 
@@ -184,7 +258,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Button resetButtonReference;
 
-    [SerializeField] private Button quitButtonReferene;
+    [SerializeField] private Button quitButtonReference;
 
     //Bool for if menu is currently up
     private bool menuIsActive = true;
@@ -254,7 +328,7 @@ public class GameManager : MonoBehaviour
 
         resetButtonReference.onClick.RemoveListener(OnResetPressed);
 
-        quitButtonReferene.onClick.RemoveListener(OnQuitPressed);
+        quitButtonReference.onClick.RemoveListener(OnQuitPressed);
     }
 
     //End of Code for Menu UI

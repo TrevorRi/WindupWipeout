@@ -689,9 +689,9 @@ RectTransform:
   - {fileID: 921361946}
   m_Father: {fileID: 2022408556}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 468, y: -20}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -812, y: -20}
   m_SizeDelta: {x: 122.5, y: 46.0421}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &629810680
@@ -1303,11 +1303,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e0add920841614daf8df929e037d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  timeMovementTest: {fileID: 128024336}
+  playerObject: {fileID: 128024336}
+  playerInput: {fileID: 128024338}
+  topText: {fileID: 731954455}
   canvasReference: {fileID: 2022408551}
   resumeButtonReference: {fileID: 1522178473}
   resetButtonReference: {fileID: 14705934}
-  quitButtonReferene: {fileID: 629810680}
+  quitButtonReference: {fileID: 0}
 --- !u!1 &1508984731
 GameObject:
   m_ObjectHideFlags: 0
@@ -1479,10 +1481,10 @@ RectTransform:
   - {fileID: 1508984732}
   m_Father: {fileID: 2022408556}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -747, y: -20}
-  m_SizeDelta: {x: 103.1, y: 46.0421}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 533, y: -20}
+  m_SizeDelta: {x: 103.099976, y: 46.0421}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1522178471
 MonoBehaviour:
