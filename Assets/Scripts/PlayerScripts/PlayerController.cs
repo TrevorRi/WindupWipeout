@@ -61,9 +61,9 @@ public class PlayerController : MonoBehaviour
             {
                 dynamicDiveTime -= Time.deltaTime;
             }
-            if(dynamicDiveTime <= .05)
+            if(dynamicDiveTime <= .15)
             {
-                rb.linearVelocity = movement * dynamicWind / 3;
+                rb.linearVelocity = movement * dynamicWind / 2;
             }
             if(dynamicDiveTime <= 0)
             {
@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviour
             }
             if(dynamicWindTime <= 0)
             {
+                dynamicWindTime = 0;
                 playerState = playerStates.alive;
             }
             
@@ -102,7 +103,7 @@ public class PlayerController : MonoBehaviour
     public void OnPlayerWind(InputAction.CallbackContext context)
     {
         string controlName = context.action.name;
-        
+
         //alternate O and P key presses to wind the player
         if(context.performed)
         {
@@ -134,7 +135,6 @@ public class PlayerController : MonoBehaviour
         {
             playerState = playerStates.dive;
             rb.linearVelocity = movement * dynamicWind * 2;
-            Debug.Log("Dive");
         }
     }
 }
