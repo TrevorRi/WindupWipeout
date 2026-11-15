@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,7 +8,8 @@ enum playerStates
 {
     alive,
     dive,
-    Wind
+    wind,
+    dead
 }
 
 public class PlayerController : MonoBehaviour
@@ -16,12 +18,15 @@ public class PlayerController : MonoBehaviour
     public float maxWind;
     public float diveTime;
     public float windTime;
+    public List<Sprite> spriteList = new List<Sprite>();
+    public List<RuntimeAnimatorController> animList = new List<RuntimeAnimatorController>();
     private float dynamicDiveTime;
     private float dynamicWind;
     private float dynamicWindTime;
     private bool windBool;
     private Rigidbody2D rb;
-
+    private Animator anim;
+    private SpriteRenderer sprite;
     private playerStates playerState;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,6 +37,8 @@ public class PlayerController : MonoBehaviour
         dynamicWindTime = windTime;
         windBool = true;
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
         playerState = playerStates.alive;
     }
 
@@ -61,7 +68,7 @@ public class PlayerController : MonoBehaviour
             {
                 dynamicDiveTime -= Time.deltaTime;
             }
-            if(dynamicDiveTime <= .15)
+            if(dynamicDiveTime <= .1)
             {
                 rb.linearVelocity = movement * dynamicWind / 2;
             }
@@ -78,7 +85,7 @@ public class PlayerController : MonoBehaviour
                 dynamicWind = 0;
             } 
         }
-        if(playerState == playerStates.Wind)
+        if(playerState == playerStates.wind)
         {
             if(dynamicWindTime > 0)
             {
@@ -86,12 +93,40 @@ public class PlayerController : MonoBehaviour
             }
             if(dynamicWindTime <= 0)
             {
-                dynamicWindTime = 0;
                 playerState = playerStates.alive;
             }
             
             //move player rigid body using the wind amount as movement speed
             rb.linearVelocity = movement * dynamicWind / 5; 
+        }
+
+        //animation controling updates
+        if(movement.x < 0)
+        {
+            sprite.flipX = true;
+        }
+        else if(movement.x > 0)
+        {
+            sprite.flipX = false;
+        }
+
+        anim.speed = dynamicWind/(maxWind/2);
+
+        if(movement*dynamicWind == Vector2.zero)
+        {
+            if(sprite.sprite != spriteList[0])
+            {
+                sprite.sprite = spriteList[0];
+                anim.runtimeAnimatorController = animList[0];             
+            }
+        }
+        else
+        {
+            if(sprite.sprite != spriteList[1])
+            {
+                sprite.sprite = spriteList[1];
+                anim.runtimeAnimatorController = animList[1];
+            }
         }
     }
 
@@ -103,7 +138,7 @@ public class PlayerController : MonoBehaviour
     public void OnPlayerWind(InputAction.CallbackContext context)
     {
         string controlName = context.action.name;
-
+        
         //alternate O and P key presses to wind the player
         if(context.performed)
         {
@@ -123,7 +158,7 @@ public class PlayerController : MonoBehaviour
                 dynamicWind = maxWind;
             }
 
-            playerState = playerStates.Wind;
+            playerState = playerStates.wind;
             dynamicWindTime = windTime;
         }
     }
@@ -138,4 +173,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void TakeDamage(Vector2 damageVector)
+    {
+        sprite.color = Color.red;
+        sprite.color = Color.white;
+    }
 }
