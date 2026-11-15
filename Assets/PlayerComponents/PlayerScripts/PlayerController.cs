@@ -1,6 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,6 +28,15 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer sprite;
     private playerStates playerState;
 
+    //Reference to manager class 
+    GameManager managerReference;
+
+    //Float for fixedDeltaTime from manager class
+    private float fixedDeltaTimeReference;
+
+    public event Action OnPlayerDamage;
+    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -40,6 +48,9 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         playerState = playerStates.alive;
+
+        managerReference = GameManager.Manager;
+        fixedDeltaTimeReference = managerReference.DefaultDeltaTime;
     }
 
     // Update is called once per frame
@@ -50,7 +61,7 @@ public class PlayerController : MonoBehaviour
             //handle wind down time
             if(dynamicWind > 0)
             {
-                dynamicWind -= Time.deltaTime;
+                dynamicWind -= Time.unscaledDeltaTime;
             }
 
             if(dynamicWind < 0)
@@ -60,13 +71,13 @@ public class PlayerController : MonoBehaviour
             }
             
             //move player rigid body using the wind amount as movement speed
-            rb.linearVelocity = movement * dynamicWind;   
+            rb.linearVelocity = movement * dynamicWind * 2;   
         }
         if(playerState == playerStates.dive)
         {
             if(dynamicDiveTime > 0)
             {
-                dynamicDiveTime -= Time.deltaTime;
+                dynamicDiveTime -= Time.unscaledDeltaTime;
             }
             if(dynamicDiveTime <= .1)
             {
@@ -78,7 +89,7 @@ public class PlayerController : MonoBehaviour
                 dynamicDiveTime = diveTime;
             }
 
-            dynamicWind -= Time.deltaTime * 15;
+            dynamicWind -= Time.unscaledDeltaTime * 15;
             if(dynamicWind < 0)
             {
                 //stop at zero so movement speed does not turn negative
@@ -89,7 +100,7 @@ public class PlayerController : MonoBehaviour
         {
             if(dynamicWindTime > 0)
             {
-                dynamicWindTime -= Time.deltaTime;
+                dynamicWindTime -= Time.unscaledDeltaTime;
             }
             if(dynamicWindTime <= 0)
             {
@@ -138,7 +149,7 @@ public class PlayerController : MonoBehaviour
     public void OnPlayerWind(InputAction.CallbackContext context)
     {
         string controlName = context.action.name;
-        
+
         //alternate O and P key presses to wind the player
         if(context.performed)
         {
@@ -173,8 +184,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(Vector2 damageVector)
+    public void TakeDamage(float damageValue)
     {
+        OnPlayerDamage?.Invoke();
         sprite.color = Color.red;
         sprite.color = Color.white;
     }

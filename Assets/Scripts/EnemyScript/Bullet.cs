@@ -38,16 +38,14 @@ public class Bullet : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        //if (collision.gameObject.tag == "Player") collision.gameObject.GetComponent<EnemyTestPlayer>().TakeDamage(damagePerHit);
+        if (collision.gameObject.tag == "Player") collision.gameObject.GetComponent<PlayerController>().TakeDamage(damagePerHit);
+
 
         if (collision.gameObject.tag != "Bullet")
         {
             Destroy(this.gameObject);
-            Debug.Log("bullet destroyed");
         }
     }
-
-
 
 
     // Skipping methods

@@ -14,6 +14,8 @@ public class EnemySkips : MonoBehaviour
     private string currentSkip;
     private List<KeyValuePair<float, string>[]> levelSkips;
 
+    private GameManager manager;
+
     // Track for scratch
     private bool scratched = false;     // starts at false, true once rewinded, false again once skipped
     private float scratchedCountdown;    // countdown between rewind and skip in scratch behavior
@@ -22,8 +24,12 @@ public class EnemySkips : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        manager = GameManager.Manager;
+
+        dynamicLevelTime = 0;
         //level skip index will act as active skip list level
         //use 
+        levelSkips = new List<KeyValuePair<float, string>[]>();
         levelSkips.Add(new KeyValuePair<float, string>[]{new KeyValuePair<float,string>(7f,"None"), 
                                                         new KeyValuePair<float,string>(14f,"None"),
                                                         new KeyValuePair<float,string>(22f,"Rewind"),
@@ -35,7 +41,7 @@ public class EnemySkips : MonoBehaviour
                                                         new KeyValuePair<float,string>(72f,"Scratch"),
                                                         new KeyValuePair<float,string>(75f,"None")});
 
-        foreach(KeyValuePair<float,string> skip in levelSkips[currentLevel])
+        foreach(KeyValuePair<float,string> skip in levelSkips[currentLevel - 1])
         {
             levelTime += skip.Key;
         }
@@ -51,6 +57,9 @@ public class EnemySkips : MonoBehaviour
     {
         //bullets = FindObjectsByType<Bullet>(FindObjectsSortMode.None);
 
+        levelTime += Time.unscaledDeltaTime;
+        dynamicLevelTime = manager.totalElapsedTime;
+
         //this code should work as a skip sequencer for levels but I have not tested it(may be useful when testing)
          if (dynamicLevelTime < levelTime)
         {
@@ -62,9 +71,9 @@ public class EnemySkips : MonoBehaviour
             dynamicLevelTime = levelTime;
         }
 
-        if (dynamicLevelTime >= levelSkips[currentLevel][0].Key)
+        if (dynamicLevelTime >= levelSkips[currentLevel -1][0].Key)
         {
-            currentSkip = levelSkips[currentLevel][0].Value;
+            currentSkip = levelSkips[currentLevel - 1][0].Value;
 
             switch (currentSkip)
             {
@@ -105,16 +114,19 @@ public class EnemySkips : MonoBehaviour
     private void SkipForward()
     {
         foreach (Enemy e in enemies) e.SkipForward();
+        Debug.Log("Record Event Happened!");
     }
 
     private void Rewind()
     {
         foreach (Enemy e in enemies) e.Rewind();
+        Debug.Log("Record Event Happened!");
     }
 
     public void NeedleDrop(float yOffset)
     {
         foreach (Enemy e in enemies) e.NeedleDrop(yOffset);
+        Debug.Log("Record Event Happened!");
     }
 
     // handled in switch statement 

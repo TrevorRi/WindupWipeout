@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject playerObject;
 
+    private PlayerController playerControllerReference;
+
     [SerializeField] private PlayerInput playerInput;
 
     //End of Reference test varaibles
@@ -27,8 +29,16 @@ public class GameManager : MonoBehaviour
     //(to scale when changing value of Time.timeScale, so objects actually slow down/ speed up)
     private float defaultDeltaTime;
 
+    public float DefaultDeltaTime
+    {
+        get
+        {
+            return defaultDeltaTime;
+        }
+    }
+
     //Variable to store total elapsed time, regardless of time scaling
-    private float totalElapsedTime = 0.0f;
+    public float totalElapsedTime = 0.0f;
 
     //Variable for how long level should be (set in start for debugging)
     private float levelTime;
@@ -69,7 +79,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //Setting up default delta time value
-        defaultDeltaTime = Time.fixedDeltaTime;
+        defaultDeltaTime = Time.deltaTime;
 
         //Start timer
         timerIsRunning = true;
@@ -77,12 +87,12 @@ public class GameManager : MonoBehaviour
         //Setting time for first level
         if (levelNumber == 1)
         {
-            levelTime = 10.0f;
+            levelTime = 60.0f;
         }
         //Setting time for second level
         else
         {
-            levelTime = 20.0f;
+            levelTime = 90.0f;
         }
 
         //Add listener for resume button being pressed
@@ -94,6 +104,9 @@ public class GameManager : MonoBehaviour
 
         //Add listener for quit button being pressed
         quitButtonReference.onClick.AddListener(OnQuitPressed);
+
+        playerControllerReference = playerObject.GetComponent<PlayerController>();
+        playerControllerReference.OnPlayerDamage += ShiftTime;
 
         //Call method to start game (in case of restarting scene)
         StartTime();
@@ -131,10 +144,15 @@ public class GameManager : MonoBehaviour
     }
 
     //Method to speed up or slow down game based on Unity events 
-    private void ShiftTime(float decreaseAmount)
+    private void ShiftTime()
     {
         //Set timescale to be new value
-        Time.timeScale -= decreaseAmount;
+        Time.timeScale -= .1f;
+
+        if (Time.timeScale <= .2)
+        {
+            CalculateScore(levelNumber);
+        }
 
         //Set new deltatime to reflect new speed value
         Time.fixedDeltaTime = defaultDeltaTime * Time.timeScale;
@@ -173,6 +191,10 @@ public class GameManager : MonoBehaviour
         if (totalTimeDifference >= 10)
         {
             //Call method to end level with player loss
+            EndLevel(false, totalTimeDifference);
+        }
+        else if (Time.timeScale <= .2)
+        {
             EndLevel(false, totalTimeDifference);
         }
         else

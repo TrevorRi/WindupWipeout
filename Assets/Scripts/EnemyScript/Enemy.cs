@@ -70,7 +70,6 @@ public abstract class Enemy : MonoBehaviour
     {
         Vector2 enemyPosition = transform.position;
         Shoot(point - enemyPosition, bulletPrefab);
-        Debug.Log(point - enemyPosition);
     }
 
     protected void ShootOneAtPlayer(PlayerController player, Bullet bulletPrefab)

@@ -126,18 +126,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3980050197723383707}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db01cae67012fb848a59049383caa3d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 90516a51f589da64582645dad020db36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  maxWind: 15
-  diveTime: 0.25
-  windTime: 0.25
-  spriteList:
-  - {fileID: -2108474139079036682, guid: e7967f9aabd03c14fb0499a44538634b, type: 3}
-  - {fileID: 9119549463136492614, guid: 1ef4934e17abdd14c8f670c50dafffba, type: 3}
-  animList:
-  - {fileID: 9100000, guid: ae20ac30b8315de4682068eac9fb7abc, type: 2}
-  - {fileID: 9100000, guid: 87041f6754962bc48ba37b5f3594a4ab, type: 2}
+  maxWind: 0
+  diveTime: 0
+  windTime: 0
+  spriteList: []
+  animList: []
 --- !u!50 &7350866572360892952
 Rigidbody2D:
   serializedVersion: 5
