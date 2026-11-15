@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 93985061da2920d4f92cb0d0d677c47f
+guid: 51057e8a83982fb41ac003bb9c9c91c2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3877726907709304827
-    second: recordStatic_0
+      213: -3563296222355218053
+    second: recordNeedle_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -97,33 +97,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -139,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: recordStatic_0
+      name: recordNeedle_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
-        width: 499
-        height: 445
+        x: 1
+        y: 158
+        width: 498
+        height: 140
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 500530a2ceb8f2ac0800000000000000
-      internalID: -3877726907709304827
+      spriteID: b71a60507f0ac8ec0800000000000000
+      internalID: -3563296222355218053
       vertices: []
       indices: 
       edges: []
@@ -174,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      recordStatic_0: -3877726907709304827
+      recordNeedle_0: -3563296222355218053
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

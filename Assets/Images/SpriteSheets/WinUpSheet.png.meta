@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1a03a58da64db4a4e8d0b8b84c614a36
+guid: 37bd5ab7ff3617e4ab20e825350b3dde
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -149,12 +149,12 @@ TextureImporter:
       name: WinUpSheet_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1548
-        width: 500
-        height: 500
+        x: 20
+        y: 1547
+        width: 421
+        height: 501
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -171,12 +171,12 @@ TextureImporter:
       name: WinUpSheet_1
       rect:
         serializedVersion: 2
-        x: 500
-        y: 1548
-        width: 500
-        height: 500
+        x: 20
+        y: 1047
+        width: 421
+        height: 502
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -193,12 +193,12 @@ TextureImporter:
       name: WinUpSheet_2
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 1548
-        width: 500
-        height: 500
+        x: 520
+        y: 1547
+        width: 421
+        height: 501
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -215,12 +215,12 @@ TextureImporter:
       name: WinUpSheet_3
       rect:
         serializedVersion: 2
-        x: 1500
-        y: 1548
-        width: 500
-        height: 500
+        x: 520
+        y: 1047
+        width: 421
+        height: 502
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -237,12 +237,12 @@ TextureImporter:
       name: WinUpSheet_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1048
-        width: 500
-        height: 500
+        x: 1020
+        y: 1547
+        width: 421
+        height: 501
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -259,12 +259,12 @@ TextureImporter:
       name: WinUpSheet_5
       rect:
         serializedVersion: 2
-        x: 500
-        y: 1048
-        width: 500
-        height: 500
+        x: 1020
+        y: 1047
+        width: 421
+        height: 502
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -281,12 +281,12 @@ TextureImporter:
       name: WinUpSheet_6
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 1048
-        width: 500
-        height: 500
+        x: 1520
+        y: 1547
+        width: 421
+        height: 501
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -303,12 +303,12 @@ TextureImporter:
       name: WinUpSheet_7
       rect:
         serializedVersion: 2
-        x: 1500
-        y: 1048
-        width: 500
-        height: 500
+        x: 1520
+        y: 1047
+        width: 421
+        height: 502
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -325,12 +325,12 @@ TextureImporter:
       name: WinUpSheet_8
       rect:
         serializedVersion: 2
-        x: 0
-        y: 548
-        width: 500
-        height: 500
+        x: 20
+        y: 547
+        width: 421
+        height: 502
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -347,12 +347,12 @@ TextureImporter:
       name: WinUpSheet_9
       rect:
         serializedVersion: 2
-        x: 500
-        y: 548
-        width: 500
-        height: 500
+        x: 520
+        y: 547
+        width: 421
+        height: 502
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -369,12 +369,12 @@ TextureImporter:
       name: WinUpSheet_10
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 548
-        width: 500
-        height: 500
+        x: 1020
+        y: 547
+        width: 421
+        height: 502
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -391,12 +391,12 @@ TextureImporter:
       name: WinUpSheet_11
       rect:
         serializedVersion: 2
-        x: 1500
-        y: 548
-        width: 500
-        height: 500
+        x: 1519
+        y: 547
+        width: 422
+        height: 502
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -413,7 +413,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 6c661ab984c80af419d61ccdbb385157
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -421,9 +421,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":500.0,"y":500.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
       WinUpSheet_0: -4728498396301821603
       WinUpSheet_1: -9191812645360751704
