@@ -3,8 +3,8 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rBody;
-    [SerializeField] private float speed;
-    [SerializeField] private float damagePerHit;
+    [SerializeField] private float speed = 10;
+    [SerializeField] private float damagePerHit = 5;
 
     private Vector2 velocity;
     public Vector2 StartVelocity { set { velocity = value; } }
@@ -28,11 +28,23 @@ public class Bullet : MonoBehaviour
     /// harm the player before despawning the bullet
     /// </summary>
     /// <param name="collision">Object that was collided with</param>
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Player") collision.gameObject.GetComponent<EnemyTestPlayer>().TakeDamage(damagePerHit);
+    //public void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Player") collision.gameObject.GetComponent<EnemyTestPlayer>().TakeDamage(damagePerHit);
 
-        Destroy(this.gameObject);
+    //    if (collision.gameObject.tag != "Bullet") Destroy(this.gameObject);
+    //    Debug.Log("bullet destroyed");
+    //}
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        //if (collision.gameObject.tag == "Player") collision.gameObject.GetComponent<EnemyTestPlayer>().TakeDamage(damagePerHit);
+
+        if (collision.gameObject.tag != "Bullet")
+        {
+            Destroy(this.gameObject);
+            Debug.Log("bullet destroyed");
+        }
     }
 
 

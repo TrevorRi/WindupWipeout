@@ -1,12 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public abstract class Enemy : MonoBehaviour
-{
+{   
     [SerializeField] protected SpriteRenderer enemyRenderer;
     [SerializeField] protected Bullet bulletPrefab;
-    [SerializeField] protected float timeBetweenShoot;
-    [SerializeField] protected float numBullets;
+    [SerializeField] protected float timeBetweenShoot = 3f;
+    private static float speed = 5f;
+    // [SerializeField] protected int numBullets = 1;
 
     List<Bullet> currentBullets;   // All bullets from this enemy that are currently in the scene
     //public List<Bullet> CurrentBullets { get; }
@@ -22,6 +24,8 @@ public abstract class Enemy : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        
+
         if (enemyRenderer.isVisible)
         {
             countdown -= Time.fixedDeltaTime;
@@ -32,6 +36,8 @@ public abstract class Enemy : MonoBehaviour
             }
         }
         else if (countdown < timeBetweenShoot) countdown = timeBetweenShoot;
+        
+        transform.Translate(-(speed * Time.deltaTime), 0, 0);
     }
 
 
@@ -54,9 +60,10 @@ public abstract class Enemy : MonoBehaviour
     /// <param name="bulletPrefab">Prefab of the bullet to spawn</param>
     protected void Shoot(Vector2 velocity, Bullet bulletPrefab)
     {
-        Bullet newBullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.identity, transform);
+        Bullet newBullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.identity);
         currentBullets.Add(newBullet);
         newBullet.StartVelocity = velocity;
+        // Debug.Log("created bullet");
     }
 
     protected void ShootOneAtPoint(Vector2 point, Bullet bulletPrefab)
@@ -66,7 +73,7 @@ public abstract class Enemy : MonoBehaviour
         Debug.Log(point - enemyPosition);
     }
 
-    protected void ShootOneAtPlayer(GameObject player, Bullet bulletPrefab)
+    protected void ShootOneAtPlayer(PlayerController player, Bullet bulletPrefab)
     {
         ShootOneAtPoint(player.transform.position, bulletPrefab);
     }
