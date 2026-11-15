@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     //End of Reference test varaibles
 
 
-
     //Start of Timer Variables
 
     //Variable to store current time in seconds
@@ -29,9 +28,17 @@ public class GameManager : MonoBehaviour
     //Variable to store total elapsed time, regardless of time scaling
     private float totalElapsedTime = 0.0f;
 
+    //Variable for how long level should be (set in start for debugging)
+    private float levelTime;
 
     //Variable to store if timer is currently running
     private bool timerIsRunning;
+
+    //End of Timer Variables
+
+    //Int for number of level currently in manager (temp fix)
+    int levelNumber;
+
 
     public static GameManager Manager { get; private set; }
 
@@ -49,8 +56,10 @@ public class GameManager : MonoBehaviour
         //Setting only manager as this object
         Manager = this;
 
+        levelNumber = SceneManager.GetActiveScene().buildIndex;
+
+        //Setting up default delta time value
         defaultDeltaTime = Time.fixedDeltaTime;
-        timeMovementTestScript = timeMovementTest.GetComponent<TestPlayerBlockMovement>();
     }
 
 
@@ -58,6 +67,17 @@ public class GameManager : MonoBehaviour
     {
         //Start timer
         timerIsRunning = true;
+
+        //Setting time for first level
+        if (levelNumber == 1)
+        {
+            levelTime = 60.0f;
+        }
+        //Setting time for second level
+        else
+        {
+            levelTime = 90.0f;
+        }
 
         //Add listener for resume button being pressed
         //(done in start to allow for button to exist for a frame before being set as inactive)
@@ -79,21 +99,24 @@ public class GameManager : MonoBehaviour
             totalElapsedTime += defaultDeltaTime;
             elapsedTime += Time.deltaTime;
         }
+
+        //If total elapsed time without scaling has reached value of 
+        //how long level should be or exceeded it, call method to end game
+        if (elapsedTime >= levelTime)
+        {
+            StopTime();
+            EndLevel();
+        }
     }
 
-    //Method to speed up or slow down game based on Unity events **Test Method**
-    private void ShiftTime(bool isSlowdownOn)
+    //Method to speed up or slow down game based on Unity events 
+    private void ShiftTime(float decreaseAmount)
     {
+        //Set timescale to be new value
+        Time.timeScale -= decreaseAmount;
 
-        if (isSlowdownOn)
-        {
-            //Set timescale to be new value
-            Time.timeScale = 0.5f;
-
-            //Set new deltatime to reflect new speed value
-            Time.fixedDeltaTime = defaultDeltaTime * Time.timeScale;
-        }
-
+        //Set new deltatime to reflect new speed value
+        Time.fixedDeltaTime = defaultDeltaTime * Time.timeScale;
     }
 
     private void StartTime()
@@ -118,7 +141,7 @@ public class GameManager : MonoBehaviour
 
     //Start of code for Scoring
 
-    private int CalculateScore()
+    private int CalculateScore(int levelNumber)
     {
         //Subtract values for total time and elapsed time, getting different in time it took for player to reach end
         //and expected value (varies by level)
@@ -129,6 +152,11 @@ public class GameManager : MonoBehaviour
         return (int)finalScore;
     }
 
+    private void EndLevel()
+    {
+        //Calculate final score and store value in variable
+        int finalScore = CalculateScore(levelNumber);
+    }
 
     //End of code for Scoring
 
