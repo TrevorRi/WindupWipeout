@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,12 +17,14 @@ public class PlayerController : MonoBehaviour
     public float maxWind;
     public float diveTime;
     public float windTime;
+    public List<Sprite> spriteList = new List<Sprite>();
     private float dynamicDiveTime;
     private float dynamicWind;
     private float dynamicWindTime;
     private bool windBool;
     private Rigidbody2D rb;
-
+    private Animator anim;
+    private SpriteRenderer sprite;
     private playerStates playerState;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,6 +35,8 @@ public class PlayerController : MonoBehaviour
         dynamicWindTime = windTime;
         windBool = true;
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
         playerState = playerStates.alive;
     }
 
@@ -61,9 +66,9 @@ public class PlayerController : MonoBehaviour
             {
                 dynamicDiveTime -= Time.deltaTime;
             }
-            if(dynamicDiveTime <= .05)
+            if(dynamicDiveTime <= .1)
             {
-                rb.linearVelocity = movement * dynamicWind / 3;
+                rb.linearVelocity = movement * dynamicWind / 2;
             }
             if(dynamicDiveTime <= 0)
             {
@@ -91,6 +96,32 @@ public class PlayerController : MonoBehaviour
             
             //move player rigid body using the wind amount as movement speed
             rb.linearVelocity = movement * dynamicWind / 5; 
+        }
+
+        //animation controling updates
+        if(movement.x < 0)
+        {
+            sprite.flipX = true;
+        }
+        else if(movement.x > 0)
+        {
+            sprite.flipX = false;
+        }
+
+        anim.speed = dynamicWind/(maxWind/2);
+
+        if(movement*dynamicWind == Vector2.zero)
+        {
+            anim.enabled = false;
+            sprite.sprite = spriteList[0];
+        }
+        else
+        {
+            anim.enabled = true;
+            if(sprite.sprite != spriteList[1])
+            {
+                sprite.sprite = spriteList[1];
+            }
         }
     }
 
@@ -134,7 +165,6 @@ public class PlayerController : MonoBehaviour
         {
             playerState = playerStates.dive;
             rb.linearVelocity = movement * dynamicWind * 2;
-            Debug.Log("Dive");
         }
     }
 }
