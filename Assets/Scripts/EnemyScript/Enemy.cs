@@ -107,5 +107,3 @@ public abstract class Enemy : MonoBehaviour
     //possibly get check distance from enemy parent
     //set bullet speed to a positive fast value(move bullets fast forward until all bullets are inactive)
 }
-
-}
