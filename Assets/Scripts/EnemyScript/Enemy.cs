@@ -63,11 +63,41 @@ public abstract class Enemy : MonoBehaviour
     {
         Vector2 enemyPosition = transform.position;
         Shoot(point - enemyPosition, bulletPrefab);
+        Debug.Log(point - enemyPosition);
     }
 
     protected void ShootOneAtPlayer(GameObject player, Bullet bulletPrefab)
     {
         ShootOneAtPoint(player.transform.position, bulletPrefab);
+    }
+
+    protected void ShootMultipleAtPoint(Vector2 point, Bullet bulletPrefab, int numBullets, float angleBetweenShots)
+    {
+        Vector2 enemyPosition = transform.position;
+        Vector2 firstVelo = point - enemyPosition;
+        for (int i = 1; i <= numBullets; i++)
+        {
+            // 1
+            if (i == 1)
+            {
+                Shoot(firstVelo, bulletPrefab);
+            }
+            // 2, 4, 6, 8, etc.
+            else if (i > 1 && i % 2 == 0)
+            {
+                Shoot(Quaternion.Euler(0f, 0f, angleBetweenShots * (i / 2)) * firstVelo, bulletPrefab);
+            }
+            // 3, 5, 7, 9, etc.
+            else if (i > 1 && i % 2 == 1)
+            {
+                Shoot(Quaternion.Euler(0f, 0f, -angleBetweenShots * (int)(i / 2.0)) * firstVelo, bulletPrefab);
+            }
+        }
+    }
+
+    protected void ShootMultipleAtPlayer(PlayerController player, Bullet bulletPrefab, int numBullets, float angleBetweenShots)
+    {
+        ShootMultipleAtPoint(player.transform.position, bulletPrefab, numBullets, angleBetweenShots);
     }
 
 
