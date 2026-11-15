@@ -1,4 +1,4 @@
-using System;
+using UnityEditor.AdaptivePerformance.Editor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -88,6 +88,9 @@ public class GameManager : MonoBehaviour
 
         //Add listener for quit button being pressed
         quitButtonReferene.onClick.AddListener(OnQuitPressed);
+
+        //Call method to start game (in case of restarting scene)
+        StartTime();
     }
 
 
@@ -98,14 +101,18 @@ public class GameManager : MonoBehaviour
         {
             totalElapsedTime += defaultDeltaTime;
             elapsedTime += Time.deltaTime;
+            Debug.Log(totalElapsedTime);
         }
+
 
         //If total elapsed time without scaling has reached value of 
         //how long level should be or exceeded it, call method to end game
-        if (elapsedTime >= levelTime)
+        if (elapsedTime >= levelTime + 20)
         {
+            //Set elapsedTime to be zero (to prevent constant calls)
+            elapsedTime = 0;
             StopTime();
-            EndLevel();
+            CalculateScore(levelNumber);
         }
     }
 
@@ -147,6 +154,12 @@ public class GameManager : MonoBehaviour
         //and expected value (varies by level)
         float totalTimeDifference = totalElapsedTime - elapsedTime;
 
+        if (totalTimeDifference >= 20)
+        {
+            EndLevel();
+        }
+
+
         float finalScore = 100 - totalTimeDifference;
 
         return (int)finalScore;
@@ -156,6 +169,8 @@ public class GameManager : MonoBehaviour
     {
         //Calculate final score and store value in variable
         int finalScore = CalculateScore(levelNumber);
+
+
     }
 
     //End of code for Scoring
