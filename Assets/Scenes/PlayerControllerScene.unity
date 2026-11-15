@@ -265,6 +265,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: abc3b86d-53ab-4389-bb87-9ccefb807cad
     m_ActionName: 'Player/Dive[/Keyboard/o,/Keyboard/p]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b5bf28f1-7496-43d5-9841-f324b9fa3a53
+    m_ActionName: 'Player/Pause[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -300,7 +304,7 @@ GameObject:
   - component: {fileID: 1351556877}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -319,7 +323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   maxWind: 15
   diveTime: 0.25
-  windTime: 0.1
+  windTime: 0.25
 --- !u!212 &1351556874
 SpriteRenderer:
   serializedVersion: 2
@@ -369,12 +373,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2108474139079036682, guid: 33387a125989184489dffc7b3a7e7993, type: 3}
+  m_Sprite: {fileID: -2108474139079036682, guid: e7967f9aabd03c14fb0499a44538634b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.91, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -460,13 +464,74 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 3.91, y: 5}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 3.91, y: 5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 2.5, y: 3}
   m_EdgeRadius: 0
+--- !u!1001 &1873358376
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 240142898427410448, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1351556872}
+    - target: {fileID: 909673917663904520, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.90636
+      objectReference: {fileID: 0}
+    - target: {fileID: 909673917663904520, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.5083082
+      objectReference: {fileID: 0}
+    - target: {fileID: 909673917663904520, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 909673917663904520, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 909673917663904520, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 909673917663904520, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 909673917663904520, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 909673917663904520, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 909673917663904520, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 909673917663904520, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4262521334497177744, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
+      propertyPath: m_Name
+      value: TESTEnemy
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b00497da197b9e040bab66e8754f7a1c, type: 3}
 --- !u!1 &1901429034
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,3 +676,4 @@ SceneRoots:
   - {fileID: 1901429037}
   - {fileID: 1351556875}
   - {fileID: 3050820}
+  - {fileID: 1873358376}
