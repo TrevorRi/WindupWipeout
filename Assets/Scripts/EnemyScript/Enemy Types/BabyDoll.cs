@@ -1,8 +1,11 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BabyDoll : Enemy
 {
-    [SerializeField] private GameObject player;
+    //Baby doll, single shot, medium
+    [Header("Baby Doll - single shot, medium.")]
+    [SerializeField] private PlayerController player;
 
     public override void ShootBullets()
     {
