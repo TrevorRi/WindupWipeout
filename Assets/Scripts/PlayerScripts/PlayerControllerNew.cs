@@ -4,7 +4,7 @@ using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-enum playerStates
+enum playerStatesNew
 {
     alive,
     dive,
@@ -12,7 +12,7 @@ enum playerStates
     dead
 }
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerNew : MonoBehaviour
 {
     private Vector2 movement;
     public float maxWind;

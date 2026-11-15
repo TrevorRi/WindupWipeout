@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 355fce1045918064fb67f3b84079b0b0
+guid: 44fb1f0087ccf7a459e957d93a273d1f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6646808247472056443
-    second: MainMenuWindUpWindOutWIP3_0
+      213: -2444552143831979147
+    second: itchCover_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MainMenuWindUpWindOutWIP3_0
+      name: itchCover_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1392
-        height: 1152
+        width: 630
+        height: 500
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b7865b082e43e3c50800000000000000
-      internalID: 6646808247472056443
+      spriteID: 57ba9f7e6c4331ed0800000000000000
+      internalID: -2444552143831979147
       vertices: []
       indices: 
       edges: []
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      MainMenuWindUpWindOutWIP3_0: 6646808247472056443
+      itchCover_0: -2444552143831979147
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
