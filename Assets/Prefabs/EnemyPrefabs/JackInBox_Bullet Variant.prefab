@@ -16,6 +16,22 @@ PrefabInstance:
       propertyPath: damagePerHit
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 2430042762229475194, guid: b6d5f62275dcbc74b85833e2c8e29f74, type: 3}
+      propertyPath: m_Size.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2430042762229475194, guid: b6d5f62275dcbc74b85833e2c8e29f74, type: 3}
+      propertyPath: m_Size.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2430042762229475194, guid: b6d5f62275dcbc74b85833e2c8e29f74, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c64f73594c75a0748bda6442e2024f8e, type: 3}
+    - target: {fileID: 2430042762229475194, guid: b6d5f62275dcbc74b85833e2c8e29f74, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3628647249728457549, guid: b6d5f62275dcbc74b85833e2c8e29f74, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
