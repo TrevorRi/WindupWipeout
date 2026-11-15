@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySkips : MonoBehaviour
 {
-    public Bullet[] bullets;
+    [SerializeField] public List<Enemy> enemies;
     
     //current level is set to 0 as there is only one level
     //ideally this would be incramented by the game manager on level completion
@@ -13,6 +13,12 @@ public class EnemySkips : MonoBehaviour
     private float dynamicLevelTime;
     private string currentSkip;
     private List<KeyValuePair<float, string>[]> levelSkips;
+
+    // Track for scratch
+    private bool scratched = false;     // starts at false, true once rewinded, false again once skipped
+    private float scratchedCountdown;    // countdown between rewind and skip in scratch behavior
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -35,81 +41,87 @@ public class EnemySkips : MonoBehaviour
         }
         //add 3 seconds from 3 secon buffer (on documentation)
         levelTime += 3;
+
+        // set coutdown for scratch
+        scratchedCountdown = 0.3f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        bullets = FindObjectsByType<Bullet>(FindObjectsSortMode.None);
+        //bullets = FindObjectsByType<Bullet>(FindObjectsSortMode.None);
 
-        //this code should work as a skip sequencer for levels but I have not tested it (may be useful when testing)
-        // if(dynamicLevelTime < levelTime)
-        // {
-        //     dynamicLevelTime += Time.deltaTime;
-        // }
+        //this code should work as a skip sequencer for levels but I have not tested it(may be useful when testing)
+         if (dynamicLevelTime < levelTime)
+        {
+            dynamicLevelTime += Time.deltaTime;
+        }
 
-        // if(dynamicLevelTime >= levelTime)
-        // {
-        //     dynamicLevelTime = levelTime;
-        // }
+        if (dynamicLevelTime >= levelTime)
+        {
+            dynamicLevelTime = levelTime;
+        }
 
-        // if(dynamicLevelTime >= levelSkips[currentLevel][0].Key)
-        // {
-        //     currentSkip = levelSkips[currentLevel][0].Value;
+        if (dynamicLevelTime >= levelSkips[currentLevel][0].Key)
+        {
+            currentSkip = levelSkips[currentLevel][0].Value;
 
-        //     switch (currentSkip)
-        //     {
-        //         case "Rewind":
-        //             //call rewind method
-        //             break;
+            switch (currentSkip)
+            {
+                case "Rewind":
+                    //call rewind method
+                    Rewind();
+                    break;
 
-        //         case "Skip":
-        //             //call skip method
-        //             break;
+                case "Skip":
+                    //call skip method
+                    SkipForward();
+                    break;
 
-        //         case "Drop":
-        //             //call drop method
-        //             break;
+                case "Drop":
+                    //call drop method
+                    NeedleDrop(3.0f);
+                    break;
 
-        //         case "Scratch":
-        //             //call scratch method
-        //             break;
-        //     }
-        // }
+                case "Scratch":
+                    //call scratch method
+                    switch (scratched)
+                    {
+                        case false:
+                            Rewind();
+                            break;
+                        case true:
+                            if (scratchedCountdown > 0) scratchedCountdown -= Time.deltaTime;
+                            else { SkipForward(); scratchedCountdown = 0.3f; }
+                            break;
+                    }
+                    break;
+            }
+        }
     }
 
     //add perameters as needed for the methods
 
-    // internal static void SkipForward()
-    // {
-    //    foreach (Bullet b in bullets)
-    //     {
-    //         b.transform.position += b.transform.position/2;    
-    //     }
-    // }
+    private void SkipForward()
+    {
+        foreach (Enemy e in enemies) e.SkipForward();
+    }
 
-    // internal static void Rewind()
-    // {
-    //    foreach (Bullet b in bullets)
-    //     {
-    //         b.transform.position -= b.transform.position/2;    
-    //     }
-    // }
+    private void Rewind()
+    {
+        foreach (Enemy e in enemies) e.Rewind();
+    }
 
-    // internal static void NeedleDrop(float yOffset)
-    // {
-    //    foreach (Bullet b in bullets)
-    //     {
-    //         Vector3 newPos = b.transform.position;
-    //         newPos.y -= yOffset;
-    //         b.transform.position = newPos;
-    //     }
-    // }
+    public void NeedleDrop(float yOffset)
+    {
+        foreach (Enemy e in enemies) e.NeedleDrop(yOffset);
+    }
 
+    // handled in switch statement 
     //internal static void RecordScratch(objBullet)
     //{
-            //set speed to a fast negative value (like -7) to have bullets move backwards until it is close to spawn position 
-                //possibly get check distance from enemy parent 
-            //set bullet speed to a positive fast value (move bullets fast forward until all bullets are inactive)
+    //set speed to a fast negative value (like -7) to have bullets move backwards until it is close to spawn position 
+    //possibly get check distance from enemy parent 
+    //set bullet speed to a positive fast value (move bullets fast forward until all bullets are inactive)
     //}
 }

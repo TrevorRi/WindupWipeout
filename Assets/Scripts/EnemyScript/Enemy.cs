@@ -9,6 +9,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float numBullets;
 
     List<Bullet> currentBullets;   // All bullets from this enemy that are currently in the scene
+    //public List<Bullet> CurrentBullets { get; }
    
     protected float countdown;
 
@@ -68,5 +69,43 @@ public abstract class Enemy : MonoBehaviour
     {
         ShootOneAtPoint(player.transform.position, bulletPrefab);
     }
+
+
+
+    // Classes for skipping
+
+    public void SkipForward()
+    {
+        foreach (Bullet b in currentBullets)
+        {
+            b.SkipForward();
+        }
+    }
+
+    public void Rewind()
+    {
+        foreach (Bullet b in currentBullets)
+        {
+            b.SkipForward();
+        }
+    }
+
+    public void NeedleDrop(float yOffset)
+    {
+        foreach (Bullet b in currentBullets)
+        {
+            //Vector3 newPos = b.transform.position;
+            //newPos.y -= yOffset;
+            //b.transform.position = newPos;
+            b.NeedleDrop(yOffset);
+        }
+    }
+
+    //protected void RecordScratch(objBullet)
+    //{
+    //    set speed to a fast negative value(like - 7) to have bullets move backwards until it is close to spawn position
+    //possibly get check distance from enemy parent
+    //set bullet speed to a positive fast value(move bullets fast forward until all bullets are inactive)
+}
 
 }
