@@ -106,5 +106,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::JackInBox
   enemyRenderer: {fileID: 7069805021858000777}
   bulletPrefab: {fileID: 6475902612459716024, guid: cf8c6ef14f94eae45b662ed1fb554e5b, type: 3}
-  timeBetweenShoot: 6
+  timeBetweenShoot: 3
   player: {fileID: 0}

@@ -2,25 +2,25 @@ using UnityEngine;
 
 public class BackgroundScrolling : MonoBehaviour
 {
-    private static float speed = 10f;
-    private static Vector2 resetPos = new Vector2(8.91f,0);
-    private SpriteRenderer backgroundrenderer;
+    [SerializeField] protected GameObject endPoint;
+    [SerializeField] protected GameObject backgroundPiece;
+
+    private static float speed = 5f;
+    private  float resetPos;
+    private SpriteRenderer backgroundRenderer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        backgroundrenderer = GetComponent<SpriteRenderer>();
-        transform.position = resetPos; //Always starts at the resetPos
-        backgroundrenderer.flipX = false;
-
+        backgroundRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if(transform.position.x <= -65)
+        if(transform.position.x <= -57)
         {
-            backgroundrenderer.flipX = !backgroundrenderer.flipX; //Flips it
-            transform.position = resetPos;
+            transform.position = endPoint.transform.position;
+            transform.Translate(-(-48), 0, 0);
         }
 
         transform.Translate(-(speed * Time.deltaTime), 0, 0);

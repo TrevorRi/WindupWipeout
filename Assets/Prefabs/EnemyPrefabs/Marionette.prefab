@@ -106,7 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Marionette
   enemyRenderer: {fileID: 2259998370831784971}
   bulletPrefab: {fileID: 5878854097533731359, guid: ff6786c5e3020ba429f8f95a6f6db138, type: 3}
-  timeBetweenShoot: 2
+  timeBetweenShoot: 1
   player: {fileID: 0}
   numBullets: 1
   angleBetweenShots: 12.25

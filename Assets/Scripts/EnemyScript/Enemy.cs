@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 
 public abstract class Enemy : MonoBehaviour
-{
+{   
     [SerializeField] protected SpriteRenderer enemyRenderer;
     [SerializeField] protected Bullet bulletPrefab;
     [SerializeField] protected float timeBetweenShoot = 3f;
-    //[SerializeField] protected int numBullets = 1;
+    private static float speed = 5f;
+    // [SerializeField] protected int numBullets = 1;
 
     List<Bullet> currentBullets;   // All bullets from this enemy that are currently in the scene
    
@@ -22,6 +23,8 @@ public abstract class Enemy : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        
+
         if (enemyRenderer.isVisible)
         {
             countdown -= Time.fixedDeltaTime;
@@ -32,6 +35,8 @@ public abstract class Enemy : MonoBehaviour
             }
         }
         else if (countdown < timeBetweenShoot) countdown = timeBetweenShoot;
+        
+        transform.Translate(-(speed * Time.deltaTime), 0, 0);
     }
 
 
@@ -54,16 +59,17 @@ public abstract class Enemy : MonoBehaviour
     /// <param name="bulletPrefab">Prefab of the bullet to spawn</param>
     protected void Shoot(Vector2 velocity, Bullet bulletPrefab)
     {
-        Bullet newBullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.identity, transform);
+        Bullet newBullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.identity);
         currentBullets.Add(newBullet);
         newBullet.StartVelocity = velocity;
-        Debug.Log("created bullet");
+        // Debug.Log("created bullet");
     }
 
     protected void ShootOneAtPoint(Vector2 point, Bullet bulletPrefab)
     {
         Vector2 enemyPosition = transform.position;
         Shoot(point - enemyPosition, bulletPrefab);
+        Debug.Log(point - enemyPosition);
     }
 
     protected void ShootOneAtPlayer(PlayerController player, Bullet bulletPrefab)
@@ -73,8 +79,8 @@ public abstract class Enemy : MonoBehaviour
 
     protected void ShootMultipleAtPoint(Vector2 point, Bullet bulletPrefab, int numBullets, float angleBetweenShots)
     {
-        Vector2 enemyPoistion = transform.position;
-        Vector2 firstVelo = point - enemyPoistion;
+        Vector2 enemyPosition = transform.position;
+        Vector2 firstVelo = point - enemyPosition;
         for (int i = 1; i <= numBullets; i++)
         {
             // 1

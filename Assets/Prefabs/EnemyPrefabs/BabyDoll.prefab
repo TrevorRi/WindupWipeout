@@ -106,6 +106,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BabyDoll
   enemyRenderer: {fileID: 4894274809476671627}
   bulletPrefab: {fileID: 4756339469028107791, guid: 18359dec5e33a87479ab4eee6492e673, type: 3}
-  timeBetweenShoot: 3
-  numBullets: 1
+  timeBetweenShoot: 1.5
   player: {fileID: 0}
